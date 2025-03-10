@@ -1,3 +1,4 @@
+import configparser
 import sys
 
 from datetime import datetime, timedelta
@@ -58,7 +59,12 @@ def update_utility():
 
 
 if __name__ == "__main__":
-    font_size_middle = 250
+    # Read Config
+    config = configparser.ConfigParser()
+    config.read('vcr-clock.ini')
+    font_size_middle = int(config['Settings']['FontSize'])
+
+    # Derived Variables
     font_size_other = int(font_size_middle / 4)
 
     # Create root window
