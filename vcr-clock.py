@@ -69,8 +69,11 @@ if __name__ == "__main__":
 
     # Create root window
     root = Tk()
-    root.configure(background='black')
+    root.configure(background='black', cursor='none')
+    # It is desired to go fullscreen from the start
     root.attributes('-fullscreen', True)
+    # However, if fullscreen fails for some reason, 5 seconds later force fullscreen
+    root.after(5000, lambda : root.attributes('-fullscreen', True))
     root.bind('<Escape>', close)
     root.grid_rowconfigure(0, weight=1)
     root.grid_rowconfigure(1, weight=4)
