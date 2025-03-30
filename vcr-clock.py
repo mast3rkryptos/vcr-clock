@@ -17,6 +17,7 @@ def update_current_time():
 
 def update_next_time():
     now = datetime.now()
+    now = datetime(2025, 3, 29, 17, 55, 1)
     service_datetimes = [
         (now + timedelta((12 - now.weekday()) % 7)).replace(hour=18, minute=0, second=0, microsecond=0),
         (now + timedelta((13 - now.weekday()) % 7)).replace(hour=8, minute=15, second=0, microsecond=0),
@@ -28,15 +29,29 @@ def update_next_time():
     td = td + timedelta(seconds=1)
     if td <= timedelta(minutes=5):
         lbl_next_time.config(foreground='yellow')
+        lbl_days_text.config(foreground='yellow')
+        lbl_days_colon.config(foreground='yellow')
+        lbl_hours_text.config(foreground='yellow')
+        lbl_hours_colon.config(foreground='yellow')
+        lbl_minutes_text.config(foreground='yellow')
+        lbl_minutes_colon.config(foreground='yellow')
+        lbl_seconds_text.config(foreground='yellow')
     else:
         lbl_next_time.config(foreground='green')
+        lbl_days_text.config(foreground='green')
+        lbl_days_colon.config(foreground='green')
+        lbl_hours_text.config(foreground='green')
+        lbl_hours_colon.config(foreground='green')
+        lbl_minutes_text.config(foreground='green')
+        lbl_minutes_colon.config(foreground='green')
+        lbl_seconds_text.config(foreground='green')
     days, remainder = divmod(td.total_seconds(), 86400)
     hours, remainder = divmod(remainder, 3600)
     minutes, seconds = divmod(remainder, 60)
-    cvs_days_num.itemconfigure(text_id_days, text='{:02}'.format(int(days)))
-    cvs_hours_num.itemconfigure(text_id_hours, text='{:02}'.format(int(hours)))
-    cvs_minutes_num.itemconfigure(text_id_minutes, text='{:02}'.format(int(minutes)))
-    cvs_seconds_num.itemconfigure(text_id_seconds, text='{:02}'.format(int(seconds)))
+    cvs_days_num.itemconfigure(text_id_days, text='{:02}'.format(int(days)), fill='yellow' if td <= timedelta(minutes=5) else 'green')
+    cvs_hours_num.itemconfigure(text_id_hours, text='{:02}'.format(int(hours)), fill='yellow' if td <= timedelta(minutes=5) else 'green')
+    cvs_minutes_num.itemconfigure(text_id_minutes, text='{:02}'.format(int(minutes)), fill='yellow' if td <= timedelta(minutes=5) else 'green')
+    cvs_seconds_num.itemconfigure(text_id_seconds, text='{:02}'.format(int(seconds)), fill='yellow' if td <= timedelta(minutes=5) else 'green')
     return
 
 
@@ -74,7 +89,9 @@ if __name__ == "__main__":
     root.attributes('-fullscreen', True)
     # However, if fullscreen fails for some reason, 5 seconds later force fullscreen
     root.after(5000, lambda : root.attributes('-fullscreen', True))
+    root.after(6000, lambda : root.focus_force())
     root.bind('<Escape>', close)
+    root.bind('f', lambda event: root.attributes("-fullscreen", not root.attributes("-fullscreen")))
     root.grid_rowconfigure(0, weight=1)
     root.grid_rowconfigure(1, weight=4)
     root.grid_rowconfigure(2, weight=1)
