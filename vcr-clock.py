@@ -17,7 +17,6 @@ def update_current_time():
 
 def update_next_time():
     now = datetime.now()
-    now = datetime(2025, 3, 29, 17, 55, 1)
     service_datetimes = [
         (now + timedelta((12 - now.weekday()) % 7)).replace(hour=18, minute=0, second=0, microsecond=0),
         (now + timedelta((13 - now.weekday()) % 7)).replace(hour=8, minute=15, second=0, microsecond=0),
